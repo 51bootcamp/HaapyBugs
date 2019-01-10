@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "fortest",
-    "password": "12345",
-    "database": "mysqltest",
+    "username": "userid",
+    "password": "userpassword",
+    "database": "databasename0",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
