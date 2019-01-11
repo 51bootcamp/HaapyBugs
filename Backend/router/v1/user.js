@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const models = require('../../models');
+const parser = require("body-parser");
 
 router.use((req,res,next) => {
   console.log("user router");
@@ -19,7 +20,7 @@ router.post('/signup', (req, res) => {
       console.log("everything is good");
       res.send(result);
   });
-  res.end();
+
 });
 
 module.exports = router;
