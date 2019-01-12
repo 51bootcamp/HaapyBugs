@@ -21,12 +21,6 @@ router.post('/signup', (req, res) => {
       email: req.body.email
     }
 
-  let hashPassword = crypto.createHash("sha512").update(req.body.password).digest("hex");
-
-  models.user.create({
-      email : req.body.email,
-      password : hashPassword,
-
   }).then(result => {
     if (result == "") {
 
