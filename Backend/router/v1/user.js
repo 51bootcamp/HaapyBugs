@@ -12,12 +12,33 @@ router.all('/', (req,res) => {
 })
 
 router.post('/signup', (req, res) => {
-  models.user.create({
-      email : req.body.email,
-      password : req.body.password,
+
+  console.log("Email : " + req.body.email)
+  console.log("Password : " + req.body.password)
+
+
+  models.user.findAll({
+    where: {
+      email: req.body.email
+    }
   }).then(result => {
-      console.log("everything is good");
-      res.send(result);
+    if (result == "") {
+
+      models.user.create({
+          email : req.body.email,
+          password : req.body.password,
+      }).then(result => {
+          console.log("< " + req.body.email + " > membership has been completed.");
+          res.send(
+            "< " + req.body.email + " > membership has been completed."
+          );
+      });
+    } else {
+      console.log("< " + req.body.email + " > are already a member");
+      res.send(
+        "< " + req.body.email + " > are already a member"
+      );
+    }
   });
 
 });
