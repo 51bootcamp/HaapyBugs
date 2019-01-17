@@ -3,14 +3,14 @@ const router = express.Router();
 const models = require('../../models');
 const crypto = require('crypto')
 
-router.use((req,res,next) => {
+router.use((req, res, next) => {
   console.log("user router");
   next();
 });
 
-router.all('/', (req,res) => {
+router.all('/', (req, res) => {
   res.send("this is user root");
-})
+});
 
 router.post('/signup', (req, res) => {
 
