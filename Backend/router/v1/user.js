@@ -60,4 +60,11 @@ router.get('/signin', (req, res) => {
 
 });
 
+router.get('/signout', (req, res) => {
+
+  req.session.destroy();
+  res.clearCookie('sid');
+
+});
+
 module.exports = router;
