@@ -24,13 +24,11 @@ public class SignUpActivity extends AppCompatActivity {
         etRegPw = (EditText) findViewById(R.id.etRegPw);
         etRegPwcheck = (EditText) findViewById(R.id.etRegPwcheck);
 
-        Intent intent = getIntent();
-        //TODO
-
+        //TODO(Jelldo): homeIntent is needed
     }
 
     private void RegisterUser(String email, String password) {
-
+        //TODO(Jelldo)
     }
 
     public void buttonSignUp(View view) {

@@ -16,6 +16,14 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        btnSignIn = (Button) findViewById(R.id.btnSignin);
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                //TODO(Jelldo): open HomeActivity if get success
+            }
+        });
+
         btnSignUp = (Button) findViewById(R.id.btnGotoSignUp);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -23,9 +31,6 @@ public class SignInActivity extends AppCompatActivity {
                 openSignUpActivity();
             }
         });
-
-        btnSignIn = (Button) findViewById(R.id.btnSignin);
-
     }
 
     public void openSignUpActivity() {
