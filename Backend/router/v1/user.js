@@ -35,26 +35,22 @@ router.get('/signin', (req, res) => {
   }).then(result => {
     if (result=="")
     {
-      console.log("User does not exit");
       res.json({msg: "User does not exit"});
     } else {
       let dbPassword = result[0].dataValues.password;
       let hashPassword = crypto.createHash("sha512").update(req.query.password).digest("hex");
 
       if(dbPassword == hashPassword) {
-        console.log("Password Match");
 
         req.session.email = req.query.email;
         res.json({msg: req.session.email});
 
       } else {
-        console.log("Password not Match");
         res.json({msg: "Password not Match"});
       };
     };
 
   }).catch( err => {
-    console.log(err);
     res.json({msg: "err"});
   });
 
