@@ -28,13 +28,14 @@ module.exports = (app) => {
   passport.use(new LocalStrategy(
     {
       usernameField: 'email',
-      passwordField: 'password'
+      passwordField: 'password',
+      passReqToCallback: true
     },
-    (username, password, done) => {
-      let hashPassword = crypto.createHash("sha512").update(password).digest("hex");
+    (req, username, password, done) => {
+      let hashPassword = crypto.createHash("sha512").update(req.query.password).digest("hex");
       models.user.findAll({
         where: {
-          email: username
+          email: req.query.email
         }
       }).then(result => {
         if (result == "") {

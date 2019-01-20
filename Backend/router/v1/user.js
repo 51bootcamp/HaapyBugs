@@ -1,84 +1,79 @@
 const express = require('express');
 const router = express.Router();
 const models = require('../../models');
-const crypto = require('crypto');
-const session = require('express-session');
+const crypto = require('crypto')
 
-router.use(session({
-  key: 'sid',
-  secret: 'secret',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    maxAge: 1000*60*15
-  }
-}));
+module.exports = (passport) => {
+  router.use((req, res, next) => {
+    next();
+  });
 
-router.use((req, res, next) => {
-  console.log("user router");
-  next();
-});
+  router.all('/', (req, res) => {
+    res.send("this is user root");
+  });
 
-router.all('/', (req, res) => {
-  res.send("this is user root");
-});
+  router.get('/signin', (req, res, next) => {
+    passport.authenticate('local', {
+      successRedirect : '/api/v1/user/signin-success',
+      failureRedirect : '/api/v1/user/signin-failure'
+    }) (req,res,next);
+  });
 
-router.post('/signup', (req, res) => {
-  let hashedPassword = crypto.createHash("sha512").update(req.body.password).digest("hex");
+  router.get('/signin-success', (req, res) => {
+    res.status(200);
+    res.json({
+      msg: "signin success"
+    });
+  });
 
-  models.user.findAll({
-    where: {
-      email: req.body.email
-    }
-  }).then(result => {
-    if (result == "") {
-      models.user.create({
-        email: req.body.email,
-        password: hashedPassword,
-      }).then(result => {
-          res.send(
-            "< " + req.body.email + " > membership has been completed."
-          );
+  router.get('/signin-failure', (req, res) => {
+    res.status(401);
+    res.json({
+      msg: "signin failed"
+    });
+  });
+
+  router.get('/signout', (req, res) => {
+    if(req.isAuthenticated()){
+      res.status(200);
+      req.session.destroy();
+      res.clearCookie('sid');
+      res.json({
+        msg: "signout success"
       });
     } else {
-      res.send(
-        "< " + req.body.email + " > are already a member"
-      );
+      res.status(403);
+      res.json({
+        msg: "signout failed"
+      });
     }
-  }).catch(err => {
-    res.send("err");
   });
-});
 
-router.get('/signin', (req, res) => {
-  let session = req.session;
+  router.post('/signup', (req, res) => {
+    let hashPassword = crypto.createHash("sha512").update(req.body.password).digest("hex");
 
-  models.user.findAll({
-    where: {
-      email: req.query.email
-    }
-  }).then(result => {
-    if (result == "")
-    {
-      res.json({msg: "User does not exist"});
-    } else {
-      let dbPassword = result[0].dataValues.password;
-      let hashPassword = crypto.createHash("sha512").update(req.query.password).digest("hex");
-      if(dbPassword == hashPassword) {
-        req.session.email = req.query.email;
-        res.json({msg: req.session.email});
+    models.user.findAll({
+      where: {
+        email: req.body.email
+      }
+    }).then(result => {
+      if (result == "") {
+        models.user.create({
+          email : req.body.email,
+          password : hashPassword
+        }).then(result => {
+            res.status(201).json({
+              msg: "make id successfully"
+            });
+        });
       } else {
-        res.json({msg: "Password not Match"});
-      };
-    };
-  }).catch( err => {
-    res.json({msg: "err"});
+        res.status(409).json({
+          msg: "make id fail"
+        });
+      }
+    }).catch(err => {
+      res.send("err");
+    });
   });
-});
-
-router.get('/signout', (req, res) => {
-  req.session.destroy();
-  res.clearCookie('sid');
-});
-
-module.exports = router;
+  return router;
+};
