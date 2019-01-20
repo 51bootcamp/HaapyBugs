@@ -113,7 +113,11 @@ const edit = (req, res) => {
 };
 
 const editReport = (req, res) => {
-  const reportId = parseInt(req.params.reportId);
+  const reportId = parseInt(req.query.reportId);
+  //When ID is not a number
+  if (Number.isNaN(reportId)) {
+    return res.status(400).end()
+  }
   const newWhat = req.body.data[0].what;
   const newLocation = req.body.data[0].location;
   const newTime = req.body.data[0].time;
@@ -129,8 +133,14 @@ const editReport = (req, res) => {
     },{
       where: {id: reportId}
   }).then((result) => {
-    res.send("good");
-  }).catch((err) => {});
+    if(result == ""){
+      res.json({msg: "ReportId not exist"});
+    } else {
+      res.send("good");
+    };
+  }).catch((err) => {
+    res.json({msg: "error"});
+  });
 }
 
 module.exports = {
