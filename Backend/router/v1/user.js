@@ -9,7 +9,7 @@ module.exports = (passport) => {
   });
 
   router.all('/', (req, res) => {
-    res.send("this is user root");
+    res.status(404).send("This is not normal route");
   });
 
   router.get('/signin', (req, res, next) => {
@@ -50,17 +50,19 @@ module.exports = (passport) => {
   });
 
   router.post('/signup', (req, res) => {
-    let hashPassword = crypto.createHash("sha512").update(req.body.password).digest("hex");
+
+    let hashedPassword = crypto.createHash("sha512").update(req.body.password).digest("hex");
 
     models.user.findAll({
       where: {
         email: req.body.email
       }
     }).then(result => {
+      // If data is not found. The result is null.
       if (result == "") {
         models.user.create({
           email : req.body.email,
-          password : hashPassword
+          password : hashedPassword
         }).then(result => {
             res.status(201).json({
               msg: "make id successfully"
@@ -69,11 +71,12 @@ module.exports = (passport) => {
       } else {
         res.status(409).json({
           msg: "make id fail"
-        });
+        })
       }
     }).catch(err => {
-      res.send("err");
+      res.send(err);
     });
   });
+
   return router;
 };

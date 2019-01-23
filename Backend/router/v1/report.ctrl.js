@@ -2,7 +2,6 @@ const models = require('../../models');
 
 const createReport = (req, res) => {
   if(req.isAuthenticated()){
-    console.log("User id : ", req.user[0].dataValues.id);
     models.report.create({
       what: req.body.data[0].what,
       location: req.body.data[0].location,
@@ -13,13 +12,13 @@ const createReport = (req, res) => {
     }).then((result) => {
       res.status(201);
       res.json({
-        msg: "make report successfully"
+        msg: "Report is made successfully"
       });
     });
-  }else{
+  } else {
     res.status(403);
     res.json({
-      msg : "you are not logined"
+      msg : "You are not logged in"
     });
   }
 };
@@ -45,7 +44,7 @@ const showReportList = (req, res) => {
 const findReport = (req, res) => {
   if(req.isAuthenticated()){
     const reportId = parseInt(req.params.reportId)
-    //When ID is not a number
+    // When ID is not a number
     if (Number.isNaN(reportId)) {
       return res.status(400).end()
     }
@@ -58,7 +57,7 @@ const findReport = (req, res) => {
     }).catch((err) => {});
   } else {
     res.json({
-      msg: "can't find this report"
+      msg: "Can't find this report"
     });
   }
 };

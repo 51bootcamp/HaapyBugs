@@ -1,0 +1,10 @@
+{
+  "setting": {
+    "secret" : "",
+    "cookie" : {
+      "maxAge" : 60000
+    },
+    "resave" : false,
+    "saveUninitialized" : true
+  }
+}

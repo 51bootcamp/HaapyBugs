@@ -8,7 +8,7 @@ module.exports = () => {
   });
 
   router.all('/', (req, res) => {
-    res.send("this is report root");
+    res.status(404).send("This is not normal route");
   });
 
   router.post('/create', reportCtrl.createReport);

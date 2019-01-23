@@ -10,12 +10,10 @@ module.exports = (app) => {
   app.use(passport.session());
 
   passport.serializeUser((user, done) => {
-    // console.log('serialize : ', user);
     done(null, user.email);
   });
 
   passport.deserializeUser((id, done) => {
-    console.log("deserialize", id);
     models.user.findAll({
       where: {
         email: id
@@ -32,7 +30,7 @@ module.exports = (app) => {
       passReqToCallback: true
     },
     (req, username, password, done) => {
-      let hashPassword = crypto.createHash("sha512").update(req.query.password).digest("hex");
+      let hashedPassword = crypto.createHash("sha512").update(req.query.password).digest("hex");
       models.user.findAll({
         where: {
           email: req.query.email
