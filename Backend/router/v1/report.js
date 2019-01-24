@@ -11,11 +11,11 @@ module.exports = () => {
     res.status(404).send("This is not normal route");
   });
 
-  router.post('/create', reportCtrl.createReport);
-  router.get('/list', reportCtrl.showReportList);
-  router.get('/find/:reportId', reportCtrl.findReport);
-  router.delete('/delete/:reportId', reportCtrl.deleteReport);
-  router.put('/update/:reportId', reportCtrl.edit);
+router.post('/create', reportCtrl.createReport);
+router.get('/list', reportCtrl.showReportList);
+router.get('/find/:reportId', reportCtrl.findReport);
+router.delete('/delete/:reportId', reportCtrl.deleteReport);
+router.put('/update/:reportId', reportCtrl.editReport);
 
 return router;
 };
