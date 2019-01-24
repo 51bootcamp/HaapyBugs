@@ -42,9 +42,9 @@ const showReportList = (req, res) => {
 };
 
 const findReport = (req, res) => {
-  if(req.isAuthenticated()){
-    const reportId = parseInt(req.params.reportId)
-    // When ID is not a number
+  if (req.isAuthenticated()) {
+    const reportId = parseInt(req.query.reportId);
+
     if (Number.isNaN(reportId)) {
       return res.status(400).end()
     }
@@ -77,8 +77,13 @@ const deleteReport = (req, res) => {
   }).catch((err) => {});
 };
 
-const edit = (req, res) => {
-  const reportId = parseInt(req.params.reportId);
+const editReport = (req, res) => {
+  const reportId = parseInt(req.query.reportId);
+  //When ID is not a number
+  if (Number.isNaN(reportId)) {
+    return res.status(400).end()
+  }
+
   const newWhat = req.body.data[0].what;
   const newLocation = req.body.data[0].location;
   const newTime = req.body.data[0].time;
@@ -107,7 +112,7 @@ const edit = (req, res) => {
   } else {
     res.status(401);
     res.json({
-      msg: "you are not login"
+      msg: "you are not logged in"
     });
   }
 };
@@ -149,4 +154,4 @@ module.exports = {
   findReport,
   deleteReport,
   editReport
-}
+};

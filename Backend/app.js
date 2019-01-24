@@ -9,7 +9,7 @@ const sessionSet = require('./config/session.json')
 models.sequelize.sync();
 
 app.use(session({
-  secret: sessionSet.setting.secret,
+  secret: sessionSet.setting.salt,
   cookie: sessionSet.setting.cookie,
   resave: sessionSet.setting.resave,
   saveUninitialized: sessionSet.setting.saveUninitialized
@@ -26,5 +26,4 @@ const rootRouter = require('./router/index')(passport);
 app.use('/api', rootRouter);
 
 app.listen(80, () => {
-  console.log("Server Start");
 });

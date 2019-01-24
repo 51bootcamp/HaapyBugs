@@ -9,7 +9,7 @@ module.exports = (passport) => {
   });
 
   router.all('/', (req, res) => {
-    res.status(404).send("This is not normal route");
+    res.status(404);
   });
 
   router.get('/signin', (req, res, next) => {
@@ -65,12 +65,12 @@ module.exports = (passport) => {
           password : hashedPassword
         }).then(result => {
             res.status(201).json({
-              msg: "make id successfully"
+              msg: "Creating ID success"
             });
         });
       } else {
         res.status(409).json({
-          msg: "make id fail"
+          msg: "Creating ID failed"
         })
       }
     }).catch(err => {
