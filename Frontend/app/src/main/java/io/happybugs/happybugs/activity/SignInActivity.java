@@ -1,10 +1,12 @@
-package io.happybugs.happybugs;
+package io.happybugs.happybugs.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import io.happybugs.happybugs.R;
 
 public class SignInActivity extends AppCompatActivity {
 
