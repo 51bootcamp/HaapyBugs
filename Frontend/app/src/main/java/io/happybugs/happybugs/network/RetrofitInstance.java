@@ -20,14 +20,14 @@ public class RetrofitInstance {
         }
         return rfInstance;
     }
-
-    private static OkHttpClient getOkhttpClient(){
-        if (client == null){
+  
+    private static OkHttpClient getOkhttpClient() {
+        if (client == null) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+            client = new OkHttpClient.Builder()
+                    .addInterceptor(interceptor).build();
         }
         return client;
     }
 }
-
