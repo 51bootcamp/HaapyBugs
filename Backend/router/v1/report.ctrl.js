@@ -5,7 +5,6 @@ const createReport = (req, res) => {
     return res.status(403).json({statusCode: 3005});
   }
 
-  let reportedID;
   let facebookURL = req.body.data[0].facebook_url;
   if (facebookURL == "") {
     models.report.create({
@@ -25,10 +24,8 @@ const createReport = (req, res) => {
         facebook_url: facebookURL
       }
     }).then((result) => {
-      let pid = null;
-      if (result[0].facebook_url) {
-        pid = result[0].id
-      }
+      let pid = result[0].id;
+      
       models.report.create({
         what: req.body.data[0].what,
         location: req.body.data[0].location,
@@ -38,7 +35,7 @@ const createReport = (req, res) => {
         perpetratorID: pid,
         userID: req.user[0].dataValues.id
       }).then((result) => {
-        reportedID = result.id;
+        let reportedID = result.id;
   
         models.report.count({
           group: ['userID', 'perpetratorID'],
@@ -47,17 +44,15 @@ const createReport = (req, res) => {
             perpetratorID: result.perpetratorID
           }
         }).then((count) => {
-            models.perpetrator.update({
-              reporting_user_count: count.length
-            },{
-              where: {
-                id: count[0].perpetratorID
-              }
-            });
-            res.status(201).json({
-              id: reportedID
-            });
+          models.perpetrator.update({
+            reporting_user_count: count.length
+          },{
+            where: {
+              id: count[0].perpetratorID
+            }
           });
+          res.status(201).json({id: reportedID});
+        });
       });
     });
   }
