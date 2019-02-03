@@ -36,7 +36,7 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
         }
 
         setContentView(R.layout.activity_intro);
-        transparentStatusBar();// make status bar transparent
+        transparentStatusBar();
 
         viewPager = findViewById(R.id.viewPager_slide);
         dotsLayout = findViewById(R.id.dots_layout);

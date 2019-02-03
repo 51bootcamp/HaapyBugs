@@ -81,7 +81,6 @@ public class SignUpActivity extends AppCompatActivity {
             etRegPW.setError(null);
         }
 
-        //Check password twice
         if (!userPWCheck.equals(userPW)) {
             /* INVALID PASSWORD */
             etRegPWCheck.setError("Passwords must match");
@@ -109,21 +108,17 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 201) {
-                    //Succeed to sign up
                     startActivity(new Intent(currContext, MainActivity.class));
                     finish();
                 } else if (response.code() == 409) {
-                    //ID has already been taken
                     Toast.makeText(getBaseContext(), "That email is taken. Try another.", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 400) {
-                    //PW Shorter than 8
                     Toast.makeText(getBaseContext(), "Password should be longer than 8.", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                //Network Failure
                 Toast.makeText(getBaseContext(), "Sign-Up failed due to network error", Toast.LENGTH_LONG).show();
             }
         });

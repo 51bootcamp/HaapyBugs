@@ -68,22 +68,18 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 //TODO(Jelldo): get ResponseBody too
-                //Sign-In success
                 if (response.code() == 200) {
-                    startActivity(new Intent(currContext, MainActivity.class));
-                    finish();
                     //TODO(Jelldo): add progressbar, make async
-//                    final int DELAY_MILLIS = 0;
-//                    new android.os.Handler().postDelayed(
-//                            new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    //TODO(Jelldo): need to change into HomeActivity
-//                                    //startActivity(new Intent(currContext, MainActivity.class));
-//                                    //finish();
-//                                    //dismiss dialogs, close cursors, close search dialogs
-//                                }
-//                            }, DELAY_MILLIS);
+                    final int DELAY_MILLIS = 1500;
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    //TODO(Jelldo): need to change into HomeActivity
+                                    startActivity(new Intent(currContext, MainActivity.class));
+                                    finish();
+                                }
+                            }, DELAY_MILLIS);
                 } else if (response.code() == 401) {
                     //TODO(Jelldo): show msg under the textfield
                     Toast.makeText(getBaseContext(), "Failed to login", Toast.LENGTH_LONG).show();
@@ -92,7 +88,6 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                //Network Failure
                 Toast.makeText(getBaseContext(), "Login failed due to network error", Toast.LENGTH_LONG).show();
             }
         });
