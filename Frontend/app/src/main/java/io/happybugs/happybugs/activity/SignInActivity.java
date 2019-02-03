@@ -21,7 +21,7 @@ import retrofit2.Retrofit;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private Context currC;
+    private Context currContext;
     private Button btnOpenSignUp;
     private Button btnStartSignIn;
     private EditText etUserEmail;
@@ -31,7 +31,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        currC = this;
+        currContext = this;
 
         etUserEmail = (EditText) findViewById(R.id.editText_user_email);
         etUserPW = (EditText) findViewById(R.id.editText_user_pw);
@@ -47,7 +47,7 @@ public class SignInActivity extends AppCompatActivity {
         btnOpenSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(currC, SignUpActivity.class));
+                startActivity(new Intent(currContext, SignUpActivity.class));
             }
         });
     }
@@ -60,7 +60,7 @@ public class SignInActivity extends AppCompatActivity {
         String userEmail = etUserEmail.getText().toString();
         String userPwd = etUserPW.getText().toString();
 
-        Retrofit rfInstance = RetrofitInstance.getInstance(currC);
+        Retrofit rfInstance = RetrofitInstance.getInstance(currContext);
         APIInterface service = rfInstance.create(APIInterface.class);
 
         Call<ResponseBody> requestSignIn = service.signin(userEmail, userPwd);
@@ -70,7 +70,7 @@ public class SignInActivity extends AppCompatActivity {
                 //TODO(Jelldo): get ResponseBody too
                 //Sign-In success
                 if (response.code() == 200) {
-                    startActivity(new Intent(currC, MainActivity.class));
+                    startActivity(new Intent(currContext, MainActivity.class));
                     finish();
                     //TODO(Jelldo): add progressbar, make async
 //                    final int DELAY_MILLIS = 0;
@@ -79,7 +79,7 @@ public class SignInActivity extends AppCompatActivity {
 //                                @Override
 //                                public void run() {
 //                                    //TODO(Jelldo): need to change into HomeActivity
-//                                    //startActivity(new Intent(currC, MainActivity.class));
+//                                    //startActivity(new Intent(currContext, MainActivity.class));
 //                                    //finish();
 //                                    //dismiss dialogs, close cursors, close search dialogs
 //                                }

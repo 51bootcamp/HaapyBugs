@@ -23,7 +23,7 @@ import retrofit2.Retrofit;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private Context currC;
+    private Context currContext;
     private EditText etRegEmail;
     private EditText etRegPW;
     private EditText etRegPWCheck;
@@ -37,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        currC = this;
+        currContext = this;
         etRegEmail = (EditText) findViewById(R.id.editText_reg_email);
         etRegPW = (EditText) findViewById(R.id.editText_reg_pw);
         etRegPWCheck = (EditText) findViewById(R.id.editText_reg_pw);
@@ -97,7 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
         userEmail = etRegEmail.getText().toString();
         userPW = etRegPW.getText().toString();
 
-        Retrofit rfInstance = new RetrofitInstance().getInstance(currC);
+        Retrofit rfInstance = new RetrofitInstance().getInstance(currContext);
         APIInterface service = rfInstance.create(APIInterface.class);
 
         JSONObject userData = new JSONObject();
@@ -110,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 201) {
                     //Succeed to sign up
-                    startActivity(new Intent(currC, MainActivity.class));
+                    startActivity(new Intent(currContext, MainActivity.class));
                     finish();
                 } else if (response.code() == 409) {
                     //ID has already been taken
