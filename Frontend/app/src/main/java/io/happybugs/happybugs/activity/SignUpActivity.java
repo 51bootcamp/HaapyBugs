@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +23,7 @@ import retrofit2.Retrofit;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private Context currContext;
+    private Context currC;
     private EditText etRegEmail;
     private EditText etRegPW;
     private EditText etRegPWCheck;
@@ -38,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        currContext = this;
+        currC = this;
         etRegEmail = (EditText) findViewById(R.id.editText_reg_email);
         etRegPW = (EditText) findViewById(R.id.editText_reg_pw);
         etRegPWCheck = (EditText) findViewById(R.id.editText_reg_pw);
@@ -53,17 +52,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void startSignUp() {
-        //Need to discuss which activity should be opened
         if (!isValidSignUpForm()) {
             Toast.makeText(getBaseContext(), "SignUp Failed", Toast.LENGTH_LONG).show();
-            //btnStartSignUp.setEnabled(true);
             return;
         }
-        //btnStartSignUp.setEnabled(false);
-        //TODO(Jelldo): open HomeActivity if get success register
-        //Need to discuss which activity should be opened
         sendUserInfo();
-
     }
 
     private boolean isValidSignUpForm() {
@@ -104,8 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
         userEmail = etRegEmail.getText().toString();
         userPW = etRegPW.getText().toString();
 
-        //TODO(Jelldo): register userData
-        Retrofit rfInstance = new RetrofitInstance().getInstance(currContext);
+        Retrofit rfInstance = new RetrofitInstance().getInstance(currC);
         APIInterface service = rfInstance.create(APIInterface.class);
 
         JSONObject userData = new JSONObject();
@@ -118,9 +110,8 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 201) {
                     //Succeed to sign up
-                    startActivity(new Intent(currContext, MainActivity.class));
-                    //TODO(Jelldo): need to kill SignUpActivity when HomeActivity is opened
-                    //finish();
+                    startActivity(new Intent(currC, MainActivity.class));
+                    finish();
                 } else if (response.code() == 409) {
                     //ID has already been taken
                     Toast.makeText(getBaseContext(), "That email is taken. Try another.", Toast.LENGTH_LONG).show();
